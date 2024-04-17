@@ -1,0 +1,9 @@
+asgiref==3.8.1
+Babel==2.14.0
+Django==5.0.4
+django-countries==7.6.1
+django-phonenumber-field==7.3.0
+phonenumbers==8.13.34
+pillow==10.3.0
+sqlparse==0.4.4
+typing_extensions==4.11.0
