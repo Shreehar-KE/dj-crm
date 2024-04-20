@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Leads |{% endblock title %}
+{% block page_header %}
+<h2 class="m-0">Leads</h2>
+<a href="{% url 'contacts:lead-create' %}">+ New Lead</a>
+{% endblock page_header %}
+{% block content %}
+{% for lead in lead_list%}
+<p class="mb-1">
+  {{lead}} - <a href="{% url 'contacts:lead-detail' lead.id %}">view details</a> -
+  <a href="{% url 'contacts:lead-promote' lead.id %}">Promote Lead</a>
+</p>
+{% empty %}
+<p>No Leads have been added yet.</p>
+{% endfor %}
+{% endblock content%}

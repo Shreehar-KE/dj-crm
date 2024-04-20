@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+  {% csrf_token%}
+  <p>Are you sure want to promote {{prospect}}?</p>
+  <hr>
+  <a class="btn btn-danger" href="{% url 'contacts:prospect-list' %}">Cancel</a>
+  <button class="btn btn-success" type="submit">Promote Prospect</button>
+</form>
+{% endblock content %}

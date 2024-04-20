@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Prospects | {% endblock title %}
+{% block page_header %}
+<h2 class="m-0">Prospects</h2>
+<a href="{% url 'contacts:prospect-create' %}">+ New Prospect</a>
+{% endblock page_header %}
+{% block content %}
+{% for prospect in prospect_list%}
+<p class="mb-1">
+  {{prospect}} - <a href="{% url 'contacts:prospect-detail' prospect.id %}">view details</a> -
+  <a href="{% url 'contacts:prospect-promote' prospect.id %}">Promote Prospect</a>
+</p>
+{% empty %}
+<p>No Prospects have been added yet.</p>
+{% endfor %}
+{% endblock content%}

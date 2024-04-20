@@ -47,7 +47,7 @@ class Contact(models.Model):
     )
 
     def __str__(self):
-        return self.first_name + ' - ' + self.type
+        return self.first_name + ' ' + self.last_name
 
 
 class LeadManager(models.Manager):
@@ -62,7 +62,8 @@ class Lead(Contact):
         proxy = True
     objects = LeadManager()
 
-    def promote(self):
+    def promote(self, score):
+        self.score = score
         self.is_lead = False
         self.is_prospect = True
         self.type = Contact.Types.PROSPECT

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>Are you sure want to promote {{lead}}?</p>
+<form action="" method="POST">
+  {% csrf_token%}
+  {{ form.as_div }}
+  <hr>
+  <a class="btn btn-danger" href="{% url 'contacts:lead-list' %}">Cancel</a>
+  <button class="btn btn-success" type="submit">Promote Lead</button>
+</form>
+{% endblock content %}

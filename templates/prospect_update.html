@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+  {% csrf_token%}
+  {{ form.as_div }}
+  <a class="btn btn-danger" href="{% url 'contacts:prospect-detail' prospect.id %}">Cancel</a>
+  <button class="btn btn-success" type="submit">Update</button>
+</form>
+{% endblock content %}

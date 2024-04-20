@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} Contact Details | {% endblock title %}
+{% block page_header %}
+<h2 class="m-0">{{contact}}</h2>
+{% if contact.is_lead %}
+<div>
+  <a href="{% url 'contacts:lead-update' contact.id%}">edit</a> |
+  <a href="{% url 'contacts:lead-list' %}">go back</a>
+</div>
+{% endif %}
+{% if contact.is_prospect %}
+<div>
+  <a href="{% url 'contacts:prospect-update' contact.id%}">edit</a> |
+  <a href="{% url 'contacts:prospect-list' %}">go back</a>
+</div>
+{% endif %}
+{% if contact.is_customer %}
+<div>
+  <a href="{% url 'contacts:customer-update' contact.id%}">edit</a> |
+  <a href="{% url 'contacts:customer-list' %}">go back</a>
+</div>
+{% endif %}
+{% endblock page_header %}
+{% block content %}
+<p><b>Email: </b>{{contact.email}}</p>
+<p><b>Phone: </b>{{contact.phone_number}}</p>
+<p><b>Type: </b>{{contact.type}}</p>
+{% if not contact.is_lead %}
+<p><b>Score: </b>{{contact.score}}</p>
+{% endif %}
+<p><b>Address: </b>{{contact.address}}</p>
+<p><b>Country: </b>{{contact.country.name}}</p>
+{% endblock content%}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Customers | {% endblock title %}
+{% block page_header %}
+<h2 class="m-0">Customers</h2>
+<a href="{% url 'contacts:customer-create' %}">+ New Customer</a>
+{% endblock page_header %}
+{% block content %}
+{% for customer in customer_list%}
+<p class="mb-1">
+  {{customer}} - <a href="{% url 'contacts:customer-detail' customer.id %}">view details</a> -
+</p>
+{% empty %}
+<p>No Customers have been added yet.</p>
+{% endfor %}
+{% endblock content%}

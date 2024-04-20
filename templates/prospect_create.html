@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="" method="POST">
+  {% csrf_token%}
+  {{ form.as_div }}
+  <button type="submit">Create Prospect</button>
+  <a class="btn btn-danger" href="{% url 'contacts:prospect-list' %}">Cancel</a>
+  <button class="btn btn-success" type="submit">Create Prospect</button>
+</form>
+{% endblock content %}
