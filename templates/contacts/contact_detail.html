@@ -4,24 +4,27 @@
 <h2 class="m-0">{{contact}}</h2>
 {% if contact.is_lead %}
 <div>
-  <a href="{% url 'contacts:lead-update' contact.id%}">edit</a> |
-  <a href="{% url 'contacts:lead-list' %}">go back</a>
+  <a href="{% url 'contacts:lead-update' contact.id%}">Edit</a> |
+  <a href="{% url 'contacts:lead-promote' contact.id %}">Promote Lead</a> |
+  <a href="{% url 'contacts:lead-list' %}">Go Back</a>
 </div>
 {% endif %}
 {% if contact.is_prospect %}
 <div>
-  <a href="{% url 'contacts:prospect-update' contact.id%}">edit</a> |
-  <a href="{% url 'contacts:prospect-list' %}">go back</a>
+  <a href="{% url 'contacts:prospect-update' contact.id%}">Edit</a> |
+  <a href="{% url 'contacts:prospect-promote' contact.id %}">Promote Prospect</a> |
+  <a href="{% url 'contacts:prospect-list' %}">Go Back</a>
 </div>
 {% endif %}
 {% if contact.is_customer %}
 <div>
-  <a href="{% url 'contacts:customer-update' contact.id%}">edit</a> |
-  <a href="{% url 'contacts:customer-list' %}">go back</a>
+  <a href="{% url 'contacts:customer-update' contact.id%}">Edit</a> |
+  <a href="{% url 'contacts:customer-list' %}">Go Back</a>
 </div>
 {% endif %}
 {% endblock page_header %}
 {% block content %}
+<p><b>Age: </b>{{contact.age}}</p>
 <p><b>Email: </b>{{contact.email}}</p>
 <p><b>Phone: </b>{{contact.phone_number}}</p>
 <p><b>Type: </b>{{contact.type}}</p>

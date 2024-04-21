@@ -7,8 +7,7 @@
 {% block content %}
 {% for lead in lead_list%}
 <p class="mb-1">
-  {{lead}} - <a href="{% url 'contacts:lead-detail' lead.id %}">view details</a> -
-  <a href="{% url 'contacts:lead-promote' lead.id %}">Promote Lead</a>
+  {{lead}} - <a href="{% url 'contacts:lead-detail' lead.id %}">view details</a>
 </p>
 {% empty %}
 <p>No Leads have been added yet.</p>

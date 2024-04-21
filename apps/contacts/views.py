@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView
 from .models import Contact, Lead, Prospect, Customer
 from . import forms
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 
 
 class TestView(TemplateView):
@@ -12,7 +14,7 @@ class TestView(TemplateView):
 class LeadCreateView(CreateView):
     model = Lead
     form_class = forms.LeadCreateForm
-    template_name = 'lead_create.html'
+    template_name = 'contacts/lead_create.html'
     success_url = reverse_lazy('contacts:lead-list')
 
     def form_valid(self, form):
@@ -28,7 +30,7 @@ class LeadCreateView(CreateView):
 class ProspectCreateView(CreateView):
     model = Prospect
     form_class = forms.ProspectCreateForm
-    template_name = 'prospect_create.html'
+    template_name = 'contacts/prospect_create.html'
     success_url = reverse_lazy('contacts:prospect-list')
 
     def form_valid(self, form):
@@ -44,7 +46,7 @@ class ProspectCreateView(CreateView):
 class CustomerCreateView(CreateView):
     model = Customer
     form_class = forms.CustomerCreateForm
-    template_name = 'customer_create.html'
+    template_name = 'contacts/customer_create.html'
     success_url = reverse_lazy('contacts:customer-list')
 
     def form_valid(self, form):
@@ -59,57 +61,60 @@ class CustomerCreateView(CreateView):
 
 class LeadListView(ListView):
     model = Lead
-    template_name = 'lead_list.html'
+    template_name = 'contacts/lead_list.html'
 
 
 class ProspectListView(ListView):
     model = Prospect
-    template_name = 'prospect_list.html'
+    template_name = 'contacts/prospect_list.html'
 
 
 class CustomerListView(ListView):
     model = Customer
-    template_name = 'customer_list.html'
+    template_name = 'contacts/customer_list.html'
 
 
 class LeadDetailView(DetailView):
     model = Lead
-    template_name = 'contact_detail.html'
+    template_name = 'contacts/contact_detail.html'
     context_object_name = 'contact'
 
 
 class ProspectDetailView(DetailView):
     model = Prospect
-    template_name = 'contact_detail.html'
+    template_name = 'contacts/contact_detail.html'
     context_object_name = 'contact'
 
 
 class CustomerDetailView(DetailView):
     model = Customer
-    template_name = 'contact_detail.html'
+    template_name = 'contacts/contact_detail.html'
     context_object_name = 'contact'
 
 
 class LeadUpdateView(UpdateView):
     model = Lead
     form_class = forms.LeadCreateForm
-    template_name = 'lead_update.html'
+    template_name = 'contacts/lead_update.html'
 
 
 class ProspectUpdateView(UpdateView):
     model = Prospect
     form_class = forms.ProspectCreateForm
-    template_name = 'prospect_update.html'
+    template_name = 'contacts/prospect_update.html'
 
 
 class CustomerUpdateView(UpdateView):
     model = Customer
     form_class = forms.CustomerCreateForm
-    template_name = 'customer_update.html'
+    template_name = 'contacts/customer_update.html'
 
 
 def lead_promote_view(request, pk):
-    contact = Lead.objects.get(id=pk)
+    try:
+        contact = Lead.objects.get(id=pk)
+    except ObjectDoesNotExist:
+        raise Http404
     if request.method != 'POST':
         form = forms.LeadPromoteForm()
     else:
@@ -120,13 +125,16 @@ def lead_promote_view(request, pk):
             return redirect('contacts:prospect-list')
 
     context = {'form': form, 'lead': contact}
-    return render(request, 'lead_promote.html', context)
+    return render(request, 'contacts/lead_promote.html', context)
 
 
 def prospect_promote_view(request, pk):
-    contact = Prospect.objects.get(id=pk)
+    try:
+        contact = Prospect.objects.get(id=pk)
+    except ObjectDoesNotExist:
+        raise Http404
     if request.method == 'POST':
         contact.promote()
         return redirect('contacts:customer-list')
     context = {'prospect': contact}
-    return render(request, 'prospect_promote.html', context)
+    return render(request, 'contacts/prospect_promote.html', context)

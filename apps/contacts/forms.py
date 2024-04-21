@@ -10,7 +10,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class LeadCreateForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ('first_name', 'last_name', 'email', 'phone_number',
+        fields = ('first_name', 'last_name', 'age', 'email', 'phone_number',
                   'address', 'country', 'profile_picture')
         widgets = {
             'phone_number': PhoneNumberPrefixWidget(initial='IN'),
@@ -24,7 +24,7 @@ class ProspectCreateForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        fields = ('first_name', 'last_name', 'email', 'phone_number',
+        fields = ('first_name', 'last_name', 'age', 'email', 'phone_number',
                   'address', 'country', 'score', 'profile_picture')
         widgets = {
             'phone_number': PhoneNumberPrefixWidget(initial='IN'),
@@ -38,7 +38,7 @@ class CustomerCreateForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        fields = ('first_name', 'last_name', 'email', 'phone_number',
+        fields = ('first_name', 'last_name', 'age', 'email', 'phone_number',
                   'address', 'country', 'score', 'profile_picture')
         widgets = {
             'phone_number': PhoneNumberPrefixWidget(initial='IN'),

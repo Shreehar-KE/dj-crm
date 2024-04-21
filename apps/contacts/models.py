@@ -3,6 +3,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
 from django.core.validators import MaxValueValidator
 from utils.validators import validate_file_size
+from django.urls import reverse
 
 
 class Contact(models.Model):
@@ -23,6 +24,7 @@ class Contact(models.Model):
 
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    age = models.PositiveIntegerField()
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(unique=True)
     type = models.CharField(
@@ -45,9 +47,13 @@ class Contact(models.Model):
         blank=True,
         null=True
     )
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
+
+    # def get_absolute_url(self):
+    #     return reverse("contacts:contact-detail", kwargs={"pk": self.pk})
 
 
 class LeadManager(models.Manager):
@@ -70,6 +76,9 @@ class Lead(Contact):
         self.prospect_status = Contact.ProspectStatus.OPEN
         self.save()
 
+    def get_absolute_url(self):
+        return reverse("contacts:lead-detail", kwargs={"pk": self.pk})
+
 
 class ProspectManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
@@ -91,6 +100,9 @@ class Prospect(Contact):
         self.customer_status = Contact.CustomerStatus.ACTIVE
         self.save()
 
+    def get_absolute_url(self):
+        return reverse("contacts:prospect-detail", kwargs={"pk": self.pk})
+
 
 class CustomerManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
@@ -103,3 +115,6 @@ class Customer(Contact):
     class Meta:
         proxy = True
     objects = CustomerManager()
+
+    def get_absolute_url(self):
+        return reverse("contacts:customer-detail", kwargs={"pk": self.pk})
