@@ -6,7 +6,23 @@ from utils.validators import validate_file_size
 from django.urls import reverse
 
 
+class ContactManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        return queryset
+
+    def get_without_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs).exclude(is_deleted=True)
+        return queryset
+
+    def get_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs).filter(is_deleted=True)
+        return queryset
+
+
 class Contact(models.Model):
+
+    objects = ContactManager()
 
     class Types(models.TextChoices):
         LEAD = 'LEAD', 'lead'
@@ -47,19 +63,35 @@ class Contact(models.Model):
         blank=True,
         null=True
     )
+    is_deleted = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
 
-    # def get_absolute_url(self):
-    #     return reverse("contacts:contact-detail", kwargs={"pk": self.pk})
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save()
 
 
 class LeadManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(type=Contact.Types.LEAD)
+        queryset = queryset.filter(
+            type=Contact.Types.LEAD)
+        return queryset
+
+    def get_without_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(
+            type=Contact.Types.LEAD).exclude(is_deleted=True)
+        return queryset
+
+    def get_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(
+            type=Contact.Types.LEAD)
+        queryset = queryset.filter(is_deleted=True)
         return queryset
 
 
@@ -83,7 +115,21 @@ class Lead(Contact):
 class ProspectManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(type=Contact.Types.PROSPECT)
+        queryset = queryset.filter(
+            type=Contact.Types.PROSPECT)
+        return queryset
+
+    def get_without_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(
+            type=Contact.Types.PROSPECT).exclude(is_deleted=True)
+        return queryset
+
+    def get_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(
+            type=Contact.Types.PROSPECT)
+        queryset = queryset.filter(is_deleted=True)
         return queryset
 
 
@@ -107,7 +153,21 @@ class Prospect(Contact):
 class CustomerManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(type=Contact.Types.CUSTOMER)
+        queryset = queryset.filter(
+            type=Contact.Types.CUSTOMER)
+        return queryset
+
+    def get_without_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(
+            type=Contact.Types.CUSTOMER).exclude(is_deleted=True)
+        return queryset
+
+    def get_deleted(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(
+            type=Contact.Types.CUSTOMER)
+        queryset = queryset.filter(is_deleted=True)
         return queryset
 
 

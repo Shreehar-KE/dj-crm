@@ -4,12 +4,12 @@
 <h2>Promote Lead</h2>
 {% endblock page_header %}
 {% block content %}
-<p>Are you sure want to promote {{lead}}?</p>
 <form action="" method="POST">
   {% csrf_token%}
+  <p>Are you sure want to promote {{lead}}?</p>
   {{ form.as_div }}
   <hr>
-  <a class="btn btn-danger" href="{% url 'contacts:lead-list' %}">Cancel</a>
+  <a class="btn btn-danger" href="{% url 'contacts:lead-detail' lead.id %}">Cancel</a>
   <button class="btn btn-success" type="submit">Promote Lead</button>
 </form>
 {% endblock content %}

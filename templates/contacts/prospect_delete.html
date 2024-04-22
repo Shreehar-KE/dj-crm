@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% block title %} Promote Prospect | {% endblock title %}
+{% block title %} Delete Prospect | {% endblock title %}
 {% block page_header %}
-<h2>Promote Prospect</h2>
+<h2>Delete Prospect</h2>
 {% endblock page_header %}
 {% block content %}
 <form action="" method="POST">
   {% csrf_token%}
-  <p>Are you sure want to promote {{prospect}}?</p>
+  <p>Are you sure want to delete {{prospect}}?</p>
   <hr>
   <a class="btn btn-danger" href="{% url 'contacts:prospect-detail' prospect.id%}">Cancel</a>
-  <button class="btn btn-success" type="submit">Promote Prospect</button>
+  <button class="btn btn-success" type="submit">Delete Prospect</button>
 </form>
 {% endblock content %}
