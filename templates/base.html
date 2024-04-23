@@ -44,12 +44,14 @@
       </div>
     </div>
   </nav>
-  <main class="container">
-    <div class="d-flex justify-content-between align-items-end mb-2 border-bottom">
-      {% block page_header %}{% endblock page_header %}
-    </div>
+  <main class="container w-75 ">
     <div>
-      {% block content %}{% endblock content %}
+      <div class="d-flex justify-content-between align-items-end mb-2 border-bottom">
+        {% block page_header %}{% endblock page_header %}
+      </div>
+      <div>
+        {% block content %}{% endblock content %}
+      </div>
     </div>
   </main>
   <script src="{% static 'js/htmx.min.js' %}"></script>

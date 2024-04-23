@@ -8,7 +8,7 @@
   {% csrf_token%}
   <p>Are you sure want to delete {{customer}}?</p>
   <hr>
-  <a class="btn btn-danger" href="{% url 'contacts:customer-detail' customer.id%}">Cancel</a>
+  <a class="btn btn-danger" href="{% url 'contacts:contact-detail' customer.id%}">Cancel</a>
   <button class="btn btn-success" type="submit">Delete Customer</button>
 </form>
 {% endblock content %}

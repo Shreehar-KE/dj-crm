@@ -9,7 +9,7 @@
   <p>Are you sure want to promote {{lead}}?</p>
   {{ form.as_div }}
   <hr>
-  <a class="btn btn-danger" href="{% url 'contacts:lead-detail' lead.id %}">Cancel</a>
+  <a class="btn btn-danger" href="{% url 'contacts:contact-detail' lead.id %}">Cancel</a>
   <button class="btn btn-success" type="submit">Promote Lead</button>
 </form>
 {% endblock content %}

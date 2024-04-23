@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} Logs | {% endblock title %}
+{% block page_header %}
+<h2 class="m-0">Logs</h2>
+{% endblock page_header %}
+{% block content %}
+{% for log in log_list%}
+<div class="card mb-3">
+  <h4 class="card-header py-2">
+    {{ log.activity }}
+  </h4>
+  <div class="card-body " style="text-align: justify;">
+    {{ log.contact }}
+    <hr>
+    <small><i>on {{ log.date_time|date:'M d, Y - H:i' }}</i></small>
+  </div>
+</div>
+{% empty %}
+<p>No Logs have been added yet.</p>
+{% endfor %}
+{% endblock content%}

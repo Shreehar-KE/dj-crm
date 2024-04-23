@@ -6,25 +6,9 @@ from utils.validators import validate_file_size
 from django.urls import reverse
 
 
-class ContactManager(models.Manager):
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        return queryset
-
-    def get_without_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs).exclude(is_deleted=True)
-        return queryset
-
-    def get_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs).filter(is_deleted=True)
-        return queryset
-
-
 class Contact(models.Model):
 
-    objects = ContactManager()
-
-    class Types(models.TextChoices):
+    class Type(models.TextChoices):
         LEAD = 'LEAD', 'lead'
         PROSPECT = 'PROSPECT', 'prospect'
         CUSTOMER = 'CUSTOMER', 'customer'
@@ -44,7 +28,7 @@ class Contact(models.Model):
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(unique=True)
     type = models.CharField(
-        max_length=8, choices=Types.choices)
+        max_length=8, choices=Type.choices)
     is_lead = models.BooleanField(default=False)
     is_prospect = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=False)
@@ -64,6 +48,7 @@ class Contact(models.Model):
         null=True
     )
     is_deleted = models.BooleanField(default=False)
+    # date_time_added
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -73,25 +58,15 @@ class Contact(models.Model):
         self.is_deleted = True
         self.save()
 
+    def get_absolute_url(self):
+        return reverse("contacts:contact-detail", kwargs={"pk": self.pk})
+
 
 class LeadManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(
-            type=Contact.Types.LEAD)
-        return queryset
-
-    def get_without_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Types.LEAD).exclude(is_deleted=True)
-        return queryset
-
-    def get_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Types.LEAD)
-        queryset = queryset.filter(is_deleted=True)
+            type=Contact.Type.LEAD)
         return queryset
 
 
@@ -104,32 +79,19 @@ class Lead(Contact):
         self.score = score
         self.is_lead = False
         self.is_prospect = True
-        self.type = Contact.Types.PROSPECT
+        self.type = Contact.Type.PROSPECT
         self.prospect_status = Contact.ProspectStatus.OPEN
         self.save()
 
     def get_absolute_url(self):
-        return reverse("contacts:lead-detail", kwargs={"pk": self.pk})
+        return reverse("contacts:contact-detail", kwargs={"pk": self.pk})
 
 
 class ProspectManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(
-            type=Contact.Types.PROSPECT)
-        return queryset
-
-    def get_without_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Types.PROSPECT).exclude(is_deleted=True)
-        return queryset
-
-    def get_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Types.PROSPECT)
-        queryset = queryset.filter(is_deleted=True)
+            type=Contact.Type.PROSPECT)
         return queryset
 
 
@@ -141,33 +103,20 @@ class Prospect(Contact):
     def promote(self):
         self.is_prospect = False
         self.is_customer = True
-        self.type = Contact.Types.CUSTOMER
+        self.type = Contact.Type.CUSTOMER
         self.prospect_status = Contact.ProspectStatus.SUCCESS
         self.customer_status = Contact.CustomerStatus.ACTIVE
         self.save()
 
     def get_absolute_url(self):
-        return reverse("contacts:prospect-detail", kwargs={"pk": self.pk})
+        return reverse("contacts:contact-detail", kwargs={"pk": self.pk})
 
 
 class CustomerManager(models.Manager):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(
-            type=Contact.Types.CUSTOMER)
-        return queryset
-
-    def get_without_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Types.CUSTOMER).exclude(is_deleted=True)
-        return queryset
-
-    def get_deleted(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(
-            type=Contact.Types.CUSTOMER)
-        queryset = queryset.filter(is_deleted=True)
+            type=Contact.Type.CUSTOMER)
         return queryset
 
 
@@ -177,4 +126,4 @@ class Customer(Contact):
     objects = CustomerManager()
 
     def get_absolute_url(self):
-        return reverse("contacts:customer-detail", kwargs={"pk": self.pk})
+        return reverse("contacts:contact-detail", kwargs={"pk": self.pk})

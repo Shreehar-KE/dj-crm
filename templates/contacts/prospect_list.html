@@ -7,7 +7,7 @@
 {% block content %}
 {% for prospect in prospect_list%}
 <p class="mb-1">
-  {{prospect}} - <a href="{% url 'contacts:prospect-detail' prospect.id %}">view details</a>
+  {{prospect}} - <a href="{% url 'contacts:contact-detail' prospect.id %}">view details</a>
 </p>
 {% empty %}
 <p>No Prospects have been added yet.</p>
