@@ -1,14 +1,13 @@
-
 from django.db.models.base import Model as Model
 from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView
 from .models import Contact, Lead, Prospect, Customer
 from . import forms
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404
+from django.http import Http404, HttpRequest
 from django.contrib import messages
 from apps.logs.models import Log
 
@@ -99,24 +98,36 @@ class ContactDetailView(DetailView):
     model = Contact
     template_name = 'contacts/contact_detail.html'
     context_object_name = 'contact'
+    queryset = Contact.objects.get_queryset().filter(is_deleted=False)
 
 
-class LeadDetailView(DetailView):
-    model = Lead
-    template_name = 'contacts/contact_detail.html'
-    context_object_name = 'contact'
+# class LeadDetailView(DetailView):
+#     model = Lead
+#     template_name = 'contacts/contact_detail.html'
+#     context_object_name = 'contact'
+#     queryset = Lead.objects.get_queryset().exclude(is_deleted=True)
+
+#     def get_queryset(self) -> QuerySet[any]:
+#         return super().get_queryset().exclude(is_deleted=True)
+
+#     def get_object(self, queryset=None):
+#         obj = super().get_object(queryset=queryset)
+#         raise Http404
+#         if obj.is_lead:  # Replace 'boolean_field' with your actual field name
+#             raise Http404("Object not found")  # More specific message optional
+#         return obj
 
 
-class ProspectDetailView(DetailView):
-    model = Prospect
-    template_name = 'contacts/contact_detail.html'
-    context_object_name = 'contact'
+# class ProspectDetailView(DetailView):
+#     model = Prospect
+#     template_name = 'contacts/contact_detail.html'
+#     context_object_name = 'contact'
 
 
-class CustomerDetailView(DetailView):
-    model = Customer
-    template_name = 'contacts/contact_detail.html'
-    context_object_name = 'contact'
+# class CustomerDetailView(DetailView):
+#     model = Customer
+#     template_name = 'contacts/contact_detail.html'
+#     context_object_name = 'contact'
 
 
 class LeadUpdateView(UpdateView):

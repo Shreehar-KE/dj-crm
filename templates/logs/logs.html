@@ -11,6 +11,9 @@
   </h4>
   <div class="card-body " style="text-align: justify;">
     {{ log.contact }}
+    {% if not log.is_contact_deleted %}
+    - <a href="{% url 'contacts:contact-detail' log.get_contact_id %}">View Detail</a>
+    {% endif %}
     <hr>
     <small><i>on {{ log.date_time|date:'M d, Y - H:i' }}</i></small>
   </div>

@@ -1,22 +1,6 @@
-/* * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-} */
-
-body {
-    /* height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center; */
-    background-color: #f4f7ff;
-    overflow: hidden;
-}
-
-.toast {
+.cstm-toast {
     position: absolute;
-    top: 25px;
+    bottom: 25px;
     right: 30px;
     border-radius: 12px;
     background: #fff;
@@ -27,16 +11,16 @@ body {
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
 }
 
-.toast.active {
+.cstm-toast.cstm-active {
     transform: translateX(0%);
 }
 
-.toast .toast-content {
+.cstm-toast .cstm-toast-content {
     display: flex;
     align-items: center;
 }
 
-.toast-content .check {
+.cstm-toast-content .cstm-check {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,24 +32,24 @@ body {
     border-radius: 50%;
 }
 
-.toast-content .message {
+.cstm-toast-content .cstm-message {
     display: flex;
     flex-direction: column;
     margin: 0 20px;
 }
 
-.message .text {
+.cstm-message .cstm-text {
     font-size: 16px;
     font-weight: 400;
     color: #666666;
 }
 
-.message .text.text-1 {
+.cstm-message .cstm-text.cstm-text-1 {
     font-weight: 600;
     color: #333;
 }
 
-.toast .close {
+.cstm-toast .cstm-close {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -74,11 +58,11 @@ body {
     opacity: 0.7;
 }
 
-.toast .close:hover {
+.cstm-toast .cstm-close:hover {
     opacity: 1;
 }
 
-.toast .progress {
+.cstm-toast .cstm-progress {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -87,7 +71,7 @@ body {
 
 }
 
-.toast .progress:before {
+.cstm-toast .cstm-progress:before {
     content: "";
     position: absolute;
     bottom: 0;
@@ -97,32 +81,12 @@ body {
     background-color: #2770ff;
 }
 
-.progress.active:before {
-    animation: progress 5s linear forwards;
+.cstm-progress.cstm-active:before {
+    animation: cstm-progress 5s linear forwards;
 }
 
-@keyframes progress {
+@keyframes cstm-progress {
     100% {
         right: 100%;
     }
 }
-
-/* button {
-    padding: 12px 20px;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    background-color: #2770ff;
-    color: #fff;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background-color: #2770ff;
-}
-
-.toast.active~button {
-    pointer-events: none;
-} */

@@ -22,5 +22,14 @@ class Log(models.Model):
     # company admin = boolean
     date_time = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ('-date_time',)
+
     def __str__(self):
         return self.activity + ' - ' + str(self.date_time)
+
+    def get_contact_id(self):
+        return self.contact.id
+
+    def is_contact_deleted(self):
+        return self.contact.is_deleted
