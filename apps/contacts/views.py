@@ -3,6 +3,7 @@ from django.db.models.query import QuerySet
 from django.forms import BaseModelForm
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView
 from .models import Contact, Lead, Prospect, Customer
 from . import forms
@@ -150,7 +151,8 @@ class ProspectUpdateView(UpdateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         log_activity(activity=Log.Activites.CREATE_CONTACT,
                      contact=self.get_object())
-        messages.success(self.request, 'Updated Successfully!')
+        messages.success(self.request, 'Updated Successfully!',
+                         extra_tags="htmx-toast")
         return super().form_valid(form)
 
 
