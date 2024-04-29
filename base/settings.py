@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.contacts.apps.ContactsConfig',
     'apps.logs.apps.LogsConfig',
+    'apps.notes.apps.NotesConfig',
 ]
 
 MIDDLEWARE = [
